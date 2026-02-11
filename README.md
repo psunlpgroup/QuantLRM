@@ -19,7 +19,15 @@ We introduce **QuantLRM**, weight quantization of large reasoning models (LRMs) 
 
 
 ## Install
-Install packages necessary for computing channel importance and running quantization pipeline. For Olmo3, update your `transformer` library to the newest version (>=5.0.0) to avoid errors such as dimension mismatch.
+Clone our repository.
+
+```
+    git clone https://github.com/psunlpgroup/QuantLRM
+    cd QuantLRM
+```
+
+
+Install packages necessary for computing channel importance and running quantization pipeline. For Olmo3, update your `transformer` library to the newest version (>=5.0.0) to avoid errors such as dimension mismatch. For Qwen3, `transformer` version needs to be at least 4.51.0.
 
 ```
     conda create -n QuantLRM python=3.10 -y
@@ -49,7 +57,7 @@ First of all, you need to compute input channel importance scores. Run commands 
 
 ```
     python compare_weight_matrix.py
-    python quadratic_mapping.py   # supports processing weight updates on GPU
+    python quadratic_mapping.py   # supports processing weight updates on GPUs
 ```
 
 Then, run our quantization pipeline to search for the optimal scales (Figure 2 of QuantLRM). The two core files to focus on are `quant_pipeline/awq/quantize/pre_quant.py` and `auto_scale.py`. They correspond to R1-Qwen3-8B now. As we have conducted experiments on various LRMs, we place the code of other models in `quant_pipeline/other models`. You may notice some model adaptations on certain LRMs as discussed in Section 4.4. Please replace the current `pre_quant.py` and `auto_scale.py` with the model you target.

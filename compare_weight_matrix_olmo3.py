@@ -1,7 +1,7 @@
 # Load model directly
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
-
+import os
 
 
 model_before = AutoModelForCausalLM.from_pretrained("allenai/Olmo-3-7B-Think-DPO")
@@ -13,6 +13,7 @@ for i in range(32):
 	weight_a = weight_a.to("cpu")
 	weight_b = weight_b.to("cpu")
 	abs_diff = torch.abs(weight_a - weight_b)
+	os.makedirs("weight_difference/o/", exist_ok=True)
 	torch.save(abs_diff, "weight_difference/o/" + str(i) + ".pt")
 
 
@@ -21,6 +22,7 @@ for i in range(32):
 	weight_a = weight_a.to("cpu")
 	weight_b = weight_b.to("cpu")
 	abs_diff = torch.abs(weight_a - weight_b)
+	os.makedirs("weight_difference/down/", exist_ok=True)
 	torch.save(abs_diff, "weight_difference/down/" + str(i) + ".pt")
 
 
